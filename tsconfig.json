@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "es2022",
+    "module": "es2022",
+    "declaration": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "noImplicitOverride": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "outDir": "./out",
+    "downlevelIteration": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "stripInternal": true,
+    "useDefineForClassFields": false,
+    "isolatedModules": true,
+    "types": []
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "src/tests"]
+}
