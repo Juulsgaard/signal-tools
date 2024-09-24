@@ -1,4 +1,4 @@
-import {assertInInjectionContext, computed, effect, Injector, signal, Signal} from "@angular/core";
+import {computed, Signal} from "@angular/core";
 
 /**
  * Create a signal containing the last 2 values emitted by the input signal
