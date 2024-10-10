@@ -1,5 +1,4 @@
 import {delay, isObservable, Observable, of} from "rxjs";
-import {isPromise} from "rxjs/internal/util/isPromise";
 import {IRequestState, IValueRequestState} from "./request-state";
 import {WritableRequestState} from "./writable-request-state";
 import {AsyncRequestState} from "./async-request-state";
@@ -15,7 +14,7 @@ import {EmptyRequestState} from "./empty-request-state";
  */
 function valueRequestState<T>(data: T | Promise<T> | Observable<T>): IValueRequestState<T> {
   if (isObservable(data)) return new AsyncRequestState<T>(data);
-  if (isPromise(data)) return new AsyncRequestState<T>(data);
+  if (data instanceof Promise) return new AsyncRequestState<T>(data);
   return new StaticRequestState<T>(data);
 }
 
