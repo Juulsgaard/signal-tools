@@ -10,6 +10,11 @@ import {IValueRequestState} from "./request-state";
  */
 export class AsyncRequestState<T> extends IValueRequestState<T> {
 
+  private _completed = false;
+  get completed() {
+    return this._completed
+  };
+
   private readonly _request$ = new ReplaySubject<T>();
   readonly request$ = this._request$.asObservable();
 
@@ -31,34 +36,57 @@ export class AsyncRequestState<T> extends IValueRequestState<T> {
   constructor(request: Promise<T> | Observable<T>) {
     super();
 
-    const request$ = isObservable(request)
-      ? request.pipe(take(1))
-      : from(request);
+    const request$ = isObservable(request) ? request.pipe(take(1)) : from(request);
 
-    this.sub = request$.subscribe(this._request$);
-
-    this.request$.subscribe({
-      next: value => {
-        this._result$.next(value);
-        this._result.set(value);
-      },
-      error: error => {
-        this._error.set(parseError(error));
-        this._result$.complete();
-        this._loading.set(false);
-      },
-      complete: () => {
-        this._result$.complete();
-        this._loading.set(false);
-      }
+    this.sub = request$.subscribe({
+      next: x => this.onValue(x),
+      error: x => this.onError(x),
+      complete: () => this.onCompleted()
     });
   }
 
+  private onError(error: unknown | Error): void {
+    if (this.completed) return;
+    this._completed = true;
+
+    this._request$.error(error);
+
+    this._result$.complete();
+
+    this._loading.set(false);
+    this._error.set(parseError(error));
+  }
+
+  private onValue(value: T) {
+    if (this.completed) return;
+    this._completed = true;
+
+    this._request$.next(value);
+    this._request$.complete();
+
+    this._result$.next(value);
+    this._result$.complete();
+
+    this._loading.set(false);
+    this._result.set(value);
+  }
+
+  private onCompleted() {
+    if (this.completed) return;
+    this._completed = true;
+
+    this._request$.complete();
+    this._result$.complete();
+    this._loading.set(false);
+  }
+
   cancel(error?: string | Error | (() => Error)): boolean {
-    if (this.sub.closed) return false;
+    if (this.completed) return false;
+
     this.sub.unsubscribe();
     const fullError = isString(error) ? new CancelledError(error) : isFunction(error) ? error() : error;
-    this._request$.error(fullError);
+    this.onError(fullError);
+
     return true;
   }
 }

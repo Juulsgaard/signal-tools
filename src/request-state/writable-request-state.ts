@@ -58,7 +58,9 @@ export class WritableRequestState<T> extends IValueRequestState<T> {
 
     this._completed = true;
     this._request$.error(error);
+
     this._result$.complete();
+
     this._loading.set(false);
     this._error.set(parseError(error));
   }
@@ -73,6 +75,10 @@ export class WritableRequestState<T> extends IValueRequestState<T> {
     this._completed = true;
     this._request$.next(value);
     this._request$.complete();
+
+    this._result$.next(value);
+    this._result$.complete();
+
     this._loading.set(false);
     this._result.set(value);
   }

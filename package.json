@@ -1,6 +1,6 @@
 {
   "name": "@juulsgaard/signal-tools",
-  "version": "18.0.2",
+  "version": "18.0.3",
   "description": "Tools for working with Angular signals",
   "repository": "git@github.com:Juulsgaard/signal-tools.git",
   "homepage": "https://juulsgaard.github.io/signal-tools/",
