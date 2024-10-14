@@ -2,22 +2,21 @@ import {assertInInjectionContext, DestroyRef, inject, Injector, signal, Signal} 
 import {ILoadingState, IValueLoadingState} from "@juulsgaard/rxjs-tools";
 import {Subscribable} from "rxjs";
 import {toSignal} from "@angular/core/rxjs-interop";
-import {parseError} from "@juulsgaard/ts-tools";
+import {Mutable, parseError} from "@juulsgaard/ts-tools";
 
-type InternalLoadingSignal<T> = Signal<T | undefined> & {
-  error: Signal<Error | undefined>,
-  loading: Signal<boolean>,
-  dispose: () => void
-};
-/** @category Loading Signal */
-export type LoadingSignal<T> = Signal<T | undefined> & {
+interface LoadingSignalProps {
   /** The current error state */
   readonly error: Signal<Error | undefined>,
   /** The current loading state */
   readonly loading: Signal<boolean>,
   /** Dispose the underlying request / action */
   readonly dispose: () => void
-};
+}
+
+type InternalLoadingSignal<T> = Signal<T | undefined> & Mutable<LoadingSignalProps>;
+
+/** @category Loading Signal */
+export type LoadingSignal<T> = Signal<T | undefined> & LoadingSignalProps;
 
 /**
  * Options for creating a LoadingSignal
