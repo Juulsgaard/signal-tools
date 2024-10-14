@@ -31,6 +31,10 @@ export abstract class IRequestState implements Subscribable<unknown> {
    */
   abstract then(onValue: (value: unknown) => void, onError?: (error: Error) => void): this;
 
+  asPromise(): Promise<unknown> {
+    return new Promise<unknown>((resolve, reject) => this.then(resolve, reject));
+  }
+
   /**
    * Perform an action if the request fails
    * @param onError
@@ -86,6 +90,10 @@ export abstract class IValueRequestState<T> extends IRequestState implements Sub
       complete: () => onComplete()
     });
     return this;
+  }
+
+  override asPromise(): Promise<T> {
+    return new Promise<T>((resolve, reject) => this.then(resolve, reject));
   }
 
   /**
