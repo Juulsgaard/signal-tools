@@ -1,4 +1,4 @@
-import {computed, Signal, signal, untracked} from "@angular/core";
+import {computed, Signal, signal, untracked, WritableSignal} from "@angular/core";
 import {pairwiseSignal} from "../operators";
 
 /**
@@ -7,9 +7,9 @@ import {pairwiseSignal} from "../operators";
  */
 export class SignalStack<T> {
 
-  private readonly _items = signal<T[]>([]);
+  private readonly _items: WritableSignal<T[]>;
   /** A signal containing the items of the stack from bottom to top */
-  readonly items = this._items.asReadonly();
+  readonly items: Signal<T[]>;
 
   /** A signal emitting the number of items in the stack */
   readonly length = computed(() => this.items().length);
@@ -17,7 +17,10 @@ export class SignalStack<T> {
   /** A signal emitting true if there are no items in the stack */
   readonly empty = computed(() => this.length() <= 0);
 
-  constructor() {
+  constructor(values: T[] = []) {
+
+    this._items = signal<T[]>(values);
+    this.items = this._items.asReadonly();
 
     this.top = computed(() => this.items().at(-1));
     this.bottom = computed(() => this.items().at(0));
@@ -176,3 +179,11 @@ export interface SignalStackDelta<T> {
   added: boolean;
 }
 
+/**
+ * Create a new SignalStack
+ * @param values - Optional default values
+ * @category Signal Collections
+ */
+export function signalStack<T>(values?: T[]): SignalStack<T> {
+  return new SignalStack<T>(values);
+}

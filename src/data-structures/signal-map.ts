@@ -189,3 +189,12 @@ export interface ReadonlySignalMap<TKey, TVal> extends Iterable<[TKey, TVal]> {
   /** Create a signal emitting the value under a given key */
   get(key: TKey): Signal<TVal | undefined>;
 }
+
+/**
+ * Create a new SignalMap
+ * @param values - Optional default values
+ * @category Signal Collections
+ */
+export function signalMap<K, T>(values?: ReadonlyMap<K, T>): SignalMap<K, T> {
+  return new SignalMap<K, T>(values);
+}

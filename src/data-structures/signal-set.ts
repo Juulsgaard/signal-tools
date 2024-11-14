@@ -20,7 +20,7 @@ export class SignalSet<T> implements ReadonlySignalSet<T> {
   /** @inheritDoc */
   readonly array: Signal<T[]>;
 
-  constructor(values?: T[]) {
+  constructor(values: T[] = []) {
     this._set = signal<ReadonlySet<T>>(new Set<T>(values));
     this.value = this._set.asReadonly();
     this.size = computed(() => this.value().size);
@@ -196,4 +196,13 @@ export interface ReadonlySignalSet<T> extends Iterable<T> {
   readonly array: Signal<ReadonlyArray<T>>;
   /** Create a signal emitting true if a key exists in the collection */
   has(key: T): Signal<boolean>;
+}
+
+/**
+ * Create a new SignalSet
+ * @param values - Optional default values
+ * @category Signal Collections
+ */
+export function signalSet<T>(values?: T[]): SignalSet<T> {
+  return new SignalSet<T>(values);
 }

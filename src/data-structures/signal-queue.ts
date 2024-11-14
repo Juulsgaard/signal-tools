@@ -224,3 +224,12 @@ export interface SignalQueueDelta<T> {
   added: boolean;
   item?: T;
 }
+
+/**
+ * Create a new SignalQueue
+ * @param options - Optional configuration
+ * @category Signal Collections
+ */
+export function signalQueue<T>(options?: SignalQueueOptions): SignalQueue<T> {
+  return new SignalQueue<T>(options);
+}
