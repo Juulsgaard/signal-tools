@@ -1,6 +1,6 @@
 {
   "name": "@juulsgaard/signal-tools",
-  "version": "18.0.6",
+  "version": "19.0.0",
   "description": "Tools for working with Angular signals",
   "repository": "git@github.com:Juulsgaard/signal-tools.git",
   "homepage": "https://juulsgaard.github.io/signal-tools/",
@@ -14,28 +14,28 @@
     "dist/**"
   ],
   "peerDependencies": {
-    "@angular/core": "^18.2.0",
-    "@juulsgaard/ts-tools": "^1.6.8",
-    "@juulsgaard/rxjs-tools": "^1.7.8",
+    "@angular/core": "^19.0.0",
+    "@juulsgaard/ts-tools": "~1.7.0",
+    "@juulsgaard/rxjs-tools": "~1.8.0",
     "rxjs": "^7.8.1",
-    "typescript": "~5.5.4"
+    "typescript": "~5.6.3"
   },
   "dependencies": {
     "tslib": "^2.8.1"
   },
   "devDependencies": {
-    "@angular/core": "18.2.0",
-    "@juulsgaard/ts-tools": "1.6.7",
-    "@juulsgaard/rxjs-tools": "1.7.7",
+    "@angular/core": "19.0.0",
+    "@juulsgaard/ts-tools": "1.7.0",
+    "@juulsgaard/rxjs-tools": "1.8.0",
     "@types/jest": "^29.5.14",
     "jest": "^29.7.0",
-    "rollup": "^4.26.0",
+    "rollup": "^4.27.3",
     "rollup-plugin-dts": "^6.1.1",
     "rollup-plugin-esbuild": "^6.1.1",
     "rxjs": "7.8.1",
     "ts-jest": "^29.2.5",
     "typedoc": "^0.26.11",
-    "typescript": "~5.5.4"
+    "typescript": "~5.6.3"
   },
   "scripts": {
     "build": "rollup -c",
